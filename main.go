@@ -175,7 +175,7 @@ func main() {
 	})
 
 	//go func() {
-	if err := server.Listen("0.0.0.0:8080"); err != nil {
+	if err := server.Listen(`0.0.0.0:$PORT`); err != nil {
 		log.Fatalf("error starting server: %v\n", err)
 	}
 	//}()
