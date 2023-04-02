@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -28,6 +29,17 @@ type Timer struct {
 
 type ID struct {
 	ID string `json:"ID"`
+}
+
+func getPort() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = ":3000"
+	} else {
+		port = ":" + port
+	}
+
+	return port
 }
 
 func parseDuration(duration string) (time.Duration, error) {
@@ -175,7 +187,7 @@ func main() {
 	})
 
 	//go func() {
-	if err := server.Listen(":8080"); err != nil {
+	if err := server.Listen(getPort()); err != nil {
 		log.Fatalf("error starting server: %v\n", err)
 	}
 	//}()
