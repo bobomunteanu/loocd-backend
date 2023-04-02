@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -28,6 +29,17 @@ type Timer struct {
 
 type ID struct {
 	ID string `json:"ID"`
+}
+
+func getPort() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = ":3000"
+	} else {
+		port = ":" + port
+	}
+
+	return port
 }
 
 func parseDuration(duration string) (time.Duration, error) {
@@ -175,7 +187,7 @@ func main() {
 	})
 
 	//go func() {
-	if err := server.Listen(`0.0.0.0:$PORT`); err != nil {
+	if err := server.Listen(getport()); err != nil {
 		log.Fatalf("error starting server: %v\n", err)
 	}
 	//}()
